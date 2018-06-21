@@ -1,0 +1,139 @@
+#include "Shape.h"
+
+Shape* Shape::create(int type)
+{
+	Shape* pRet = new Shape();
+	if (pRet && pRet->init(type))
+	{
+		pRet->autorelease();
+		return pRet;
+	}
+	else
+	{
+		delete pRet;
+		pRet = NULL;
+		return NULL;
+	}
+}
+
+bool Shape::init(int type)
+{
+	if (!Node::init())
+	{
+		return false;
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		Block* b = Block::create();
+		this->addChild(b);
+		blocks.pushBack(b);
+	}
+
+	dir = 0;
+	this->type = type;
+	this->SetBlocks();
+
+	return true;
+}
+
+void Shape::SetBlocks()
+{
+	int bit = 0x8000;
+	int block = shape_array[type][dir];
+	int row = 0, col = 0;
+	int c = 0;
+
+	for (; bit > 0; bit = bit >> 1)
+	{
+		if (bit & block)
+		{
+			Block* b = blocks.at(c++);
+			b->SetBlockType(type);
+			b->setPosition(BLOCK_SIZE * Vec2(col, 3 - row));
+			b->SetRow(col);
+			b->SetCol(3 - row);
+		}
+		if (++col == 4)
+		{
+			col = 0;
+			row++;
+		}
+	}
+}
+
+void Shape::Down()
+{
+	this->setPosition(BLOCK_SIZE * Vec2(row, col - 1));
+	this->SetCol(col - 1);
+}
+
+void Shape::Left()
+{
+	this->setPosition(BLOCK_SIZE * Vec2(row - 1, col));
+	this->SetRow(row - 1);
+}
+
+void Shape::Right()
+{
+	this->setPosition(BLOCK_SIZE * Vec2(row + 1, col));
+	this->SetRow(row + 1);
+}
+
+bool Shape::CanTurn()
+{
+	int temp_dir = (dir + 1) % 4;
+	int bit = 0x8000;
+	int block = shape_array[type][temp_dir];
+	int row = 0, col = 0;
+	int c = 0;
+
+	int fx = this->GetRow();
+	int fy = this->GetCol();
+
+	for (; bit > 0; bit = bit >> 1)
+	{
+		if (bit & block)
+		{
+			int x = col;
+			int y = 3 - row;
+
+			if (fx + x < 1 || fx + x >(BOARD_WIDTH + 1) || fy + y < 0 || fy + y > BOARD_HEIGHT)
+			{
+				return false;
+			}
+		}
+		if (++col == 4)
+		{
+			col = 0;
+			row++;
+		}
+	}
+
+	return true;
+}
+
+void Shape::TurnShape()
+{
+	dir = (dir + 1) % 4;
+	int bit = 0x8000;
+	int block = shape_array[type][dir];
+	int row = 0, col = 0;
+	int c = 0;
+
+	for (; bit > 0; bit = bit >> 1)
+	{
+		if (bit & block)
+		{
+			Block* b = blocks.at(c++);
+			b->setPosition(BLOCK_SIZE * Vec2(col, 3 - row));
+			b->SetRow(col);
+			b->SetCol(3 - row);
+		}
+		if (++col == 4)
+		{
+			col = 0;
+			row++;
+		}
+	}
+}
