@@ -38,17 +38,16 @@ bool Diff::init()
 	MenuItemFont::setFontName("Times New Roman");
 	MenuItemFont::setFontSize(36);
 
-	MenuItemFont *Ok = MenuItemFont::create("Ok",
-		CC_CALLBACK_1(Diff::Singular, this)
-	);
+	MenuItemFont *Ok = MenuItemFont::create("Ok",CC_CALLBACK_1(Diff::Singular, this));
 	Menu* menu = Menu::create(Ok, NULL);
 	menu->setPosition(Vec2(visibleSize.width / 2, 200));
 	this->addChild(menu);
 
 	listener = EventListenerKeyboard::create();
 
-	listener->onKeyPressed = [&](EventKeyboard::KeyCode k, Event * e) {
-
+	level = 1;
+	listener->onKeyPressed = [&](EventKeyboard::KeyCode k, Event * e) 
+	{
 		if (k == EventKeyboard::KeyCode::KEY_D)
 		{
 			l++;
@@ -58,12 +57,27 @@ bool Diff::init()
 				Label* label3 = (Label*)this->getChildByTag(111);
 				label3->setString(StringUtils::format("%d", l));
 			}
+			else if(l>10)
+			{
+				auto warn= Label::createWithTTF("NO MORE THAN 10 ", "fonts/arial.ttf", 50);
+				warn->setColor(Color3B::RED);
+				warn->setPosition(Vec2(293, 250));
+				this->addChild(warn, 3);
+
+				auto OK = MenuItemFont::create("OK", CC_CALLBACK_1(Diff::OK, this));
+				OK->setColor(Color3B::RED);
+				auto menu1 = Menu::create(OK, NULL);
+				menu1->setPosition(Vec2::ZERO);
+				OK->setPosition(Vec2(293, 150));
+
+				addChild(menu1);
+			}
 		}
-		else if (k == EventKeyboard::KeyCode::KEY_A&&1<=l<=10)
+		else if (k == EventKeyboard::KeyCode::KEY_A)
 		{
-			l--;
 			if (l >= 1 && l <= 10)
 			{
+				l--;
 				level = l;
 				Label* label4 = (Label*)this->getChildByTag(111);
 				label4->setString(StringUtils::format("%d", l));
@@ -78,7 +92,11 @@ bool Diff::init()
 
 	return true;
 }
-
+void Diff::OK(Ref*obj)
+{
+	Scene * scene= Diff::createscene();
+	Director::getInstance()->replaceScene(scene);
+}
 void Diff::Singular(Ref*obj)
 {
 	auto Sin = Sin::createScene();

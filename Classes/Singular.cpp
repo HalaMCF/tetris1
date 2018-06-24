@@ -5,7 +5,9 @@
 #include"Level.h"
 USING_NS_CC;
 using namespace std;
+
 int level;
+
 Scene* Sin::createScene()
 {
 	auto scene = Scene::create();
@@ -134,7 +136,8 @@ bool Sin::init()
 
 	listener = EventListenerKeyboard::create();
 
-	listener->onKeyPressed = [&](EventKeyboard::KeyCode k, Event * e){
+	listener->onKeyPressed = [&](EventKeyboard::KeyCode k, Event * e)
+	{
 		if (CurShape)
 		{
 			switch (k)
@@ -203,8 +206,10 @@ void Sin::PushNext(float t)
 
 void Sin::Down(float t)
 {
-	if(checkBorder(1))
+	if (checkBorder(1))
+	{
 		CurShape->Down();
+	}
 	else
 	{
 		unschedule(schedule_selector(Sin::Down));
@@ -314,10 +319,10 @@ void Sin::SetMap()
 
 int Sin::CalClearNum()
 {
-	for (int j = 0; j < BOARD_HEIGHT; ++j)
+	for (int j = 0; j <BOARD_HEIGHT; ++j)
 	{
 		bool flag = true;
-		for (int i = 0; i < BOARD_WIDTH; ++i)
+		for (int i = 0; i <BOARD_WIDTH; ++i)
 		{
 			if (!map[i][j])
 			{
@@ -354,7 +359,7 @@ void Sin::BlockClear()
 			}
 		}
 
-		for (int i = 0; i < blocks.size(); ++i)
+		for (int i = 0; i != blocks.size(); ++i)
 		{
 			Block* b = blocks.at(i);
 			if (b->GetCol() > j)
@@ -366,19 +371,19 @@ void Sin::BlockClear()
 			}
 		}
 
-		for (int k = j; k < BOARD_HEIGHT - 1; ++k)
+		for (int k = j; k != BOARD_HEIGHT - 1; ++k)
 		{
 			for (int i = 0; i < BOARD_WIDTH; ++i)
 			{
 				map[i][k] = map[i][k + 1];
 			}
 		}
-		for (int i = 0; i < BOARD_WIDTH; ++i)
+		for (int i = 0; i != BOARD_WIDTH; ++i)
 		{
 			map[i][BOARD_HEIGHT - 1] = 0;
 		}
 
-		for (int k = t + 1; k < clearlines.size(); ++k)
+		for (int k = t + 1; k != clearlines.size(); ++k)
 		{
 			if (clearlines.at(k) > j)
 			{
@@ -510,8 +515,8 @@ bool Sin::isGameOver()
 
 void Sin::gameOver()
 {
-	auto label = Label::createWithSystemFont("GAME OVER", "Arial", 45);
-	label->setPosition(Vec2(150, 300));
+	auto label = Label::createWithSystemFont("GAME OVER", "Arial", 65);
+	label->setPosition(Vec2(280, 300));
 	label->setColor(Color3B::RED);
 	addChild(label, 3);
 

@@ -12,6 +12,7 @@ public:
 	CREATE_FUNC(Diff);
 	
 	void Singular(Ref* obj);
+	void OK(Ref* obj);
 private:
 	EventListenerKeyboard * listener;
 	int l = 1;

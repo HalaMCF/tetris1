@@ -20,29 +20,20 @@ bool MainMenu::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	auto label = Label::createWithTTF("Tetris", "fonts/Marker Felt.ttf", 36);
-	label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height - label->getContentSize().height));
+	label->setPosition(Vec2(origin.x + visibleSize.width / 2,origin.y + visibleSize.height - label->getContentSize().height));
 	this->addChild(label, 1);
 
 
 	MenuItemFont::setFontName("Times New Roman");
-	MenuItemFont::setFontSize(20);
+	MenuItemFont::setFontSize(24);
 
-	MenuItemFont *Singular = MenuItemFont::create("Singular",
-		CC_CALLBACK_1(MainMenu::menuSingular, this)
-	);
-	MenuItemFont *Mutiplayer = MenuItemFont::create("Mutiplayer",
-		CC_CALLBACK_1(MainMenu::menuMuti, this)
-	);
-	MenuItemFont *Rank = MenuItemFont::create("Ranking List",
-		CC_CALLBACK_1(MainMenu::menuRank, this)
-	);
-	MenuItemFont *Exit = MenuItemFont::create("Exit",
-		CC_CALLBACK_1(MainMenu::menuExit, this)
-	);
+	MenuItemFont *Singular = MenuItemFont::create("Singular",CC_CALLBACK_1(MainMenu::menuSingular, this));
+
+	MenuItemFont *Rank = MenuItemFont::create("Ranking List",CC_CALLBACK_1(MainMenu::menuRank, this));
+	MenuItemFont *Exit = MenuItemFont::create("Exit",CC_CALLBACK_1(MainMenu::menuExit, this));
 
 
-	Menu* menu = Menu::create(Singular, Mutiplayer,Rank, Exit, NULL);
+	Menu* menu = Menu::create(Singular,Rank, Exit, NULL);
 	menu->alignItemsVertically();
 	this->addChild(menu);
 	return true;
@@ -52,12 +43,6 @@ void MainMenu::menuSingular(Ref*pSender)
 {
 	auto Di = Diff::createscene();
 	Director::getInstance()->pushScene(Di);
-}
-void MainMenu::menuMuti(Ref*pSender)
-{
-	auto Mut = muti::createscene();
-
-	Director::getInstance()->pushScene(Mut);
 }
 void MainMenu::menuRank(Ref*pSender)
 {

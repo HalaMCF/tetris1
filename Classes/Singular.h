@@ -12,8 +12,8 @@ public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 	CREATE_FUNC(Sin);
-	void menuCallBack(cocos2d::Ref* obj);
-	void slider();
+	
+	void menuCallBack(Ref* obj);
 private:
 	int score;
 	int line;
