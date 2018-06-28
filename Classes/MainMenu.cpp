@@ -28,12 +28,12 @@ bool MainMenu::init()
 	MenuItemFont::setFontSize(24);
 
 	MenuItemFont *Singular = MenuItemFont::create("Singular",CC_CALLBACK_1(MainMenu::menuSingular, this));
-
+	MenuItemFont *Mutiplayer = MenuItemFont::create("Mutiplayer", CC_CALLBACK_1(MainMenu::menuMuti, this));
 	MenuItemFont *Rank = MenuItemFont::create("Ranking List",CC_CALLBACK_1(MainMenu::menuRank, this));
 	MenuItemFont *Exit = MenuItemFont::create("Exit",CC_CALLBACK_1(MainMenu::menuExit, this));
 
 
-	Menu* menu = Menu::create(Singular,Rank, Exit, NULL);
+	Menu* menu = Menu::create(Singular,Mutiplayer,Rank, Exit, NULL);
 	menu->alignItemsVertically();
 	this->addChild(menu);
 	return true;
@@ -43,6 +43,11 @@ void MainMenu::menuSingular(Ref*pSender)
 {
 	auto Di = Diff::createscene();
 	Director::getInstance()->pushScene(Di);
+}
+void MainMenu::menuMuti(Ref*pSender)
+{
+	auto Mut = muti::createScene();
+	Director::getInstance()->pushScene(Mut);
 }
 void MainMenu::menuRank(Ref*pSender)
 {

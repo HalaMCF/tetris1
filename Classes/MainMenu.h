@@ -5,7 +5,7 @@
 #include "Singular.h"
 #include"Rank.h"
 #include"Level.h"
-
+#include"Muti.h"
 class MainMenu : public cocos2d::Scene
 {
 public:
@@ -13,6 +13,7 @@ public:
 
 	virtual bool init();
 	void menuSingular(cocos2d::Ref* pSender);
+	void menuMuti(cocos2d::Ref* pSender);
 	void menuRank(cocos2d::Ref* pSender);
 	void menuExit(cocos2d::Ref* pSender);
 	CREATE_FUNC(MainMenu);
